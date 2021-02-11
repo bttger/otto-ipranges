@@ -13,7 +13,9 @@ Bewerbung Junior Fullstack Engineer - Coding Challenge AWS IP-Ranges
 
 ### Todo
 - GitHub Actions
-- Dockerconfig
 - Service Tests
 - Docs
 - 
+
+### Check out the deployed version
+**[Click here](https://cc.scaffolder.th-luebeck.dev/?region=EU)**

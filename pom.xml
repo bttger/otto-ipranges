@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.otto.codingchallenge</groupId>
 	<artifactId>ipranges</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>ipranges</name>
 	<description>AWS IP Ranges</description>
 	<properties>
@@ -40,6 +40,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layout>JAR</layout>
+                </configuration>
+                <executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
