@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IpRangesDto {
@@ -27,5 +29,10 @@ public class IpRangesDto {
 
     public void setIpRangesV6(List<IpRangeV6Dto> ipRangesV6) {
         this.ipRangesV6 = ipRangesV6;
+    }
+
+    public List<IpRangeDto> getIpRanges() {
+        return Stream.concat(this.ipRangesV4.stream(), this.ipRangesV6.stream())
+                .collect(Collectors.toList());
     }
 }

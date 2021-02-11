@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class IpRangeV4Dto {
+public class IpRangeV4Dto implements IpRangeDto {
 
     @JsonProperty("ip_prefix")
     private String range;
     private String region;
 
+    @Override
     public String getRange() {
         return range;
     }
@@ -18,6 +19,7 @@ public class IpRangeV4Dto {
         this.range = range;
     }
 
+    @Override
     public String getRegion() {
         return region;
     }
