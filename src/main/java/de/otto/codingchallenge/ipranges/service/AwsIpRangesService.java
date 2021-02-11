@@ -48,18 +48,20 @@ public class AwsIpRangesService {
      * @return A String containing all IP-ranges of a particular {@link Region}. Each entry ends with a new line.
      */
     public String getIpRangesForRegion(Region region) {
-        IpRangesDto ipRanges = this.restTemplate.getForObject(this.apiUrl, IpRangesDto.class);
-        if (ipRanges == null) {
+        IpRangesDto resp = this.restTemplate.getForObject(this.apiUrl, IpRangesDto.class);
+        if (resp == null) {
             return "";
         }
 
         StringBuilder builder = new StringBuilder();
-        ipRanges.getIpRanges().forEach(range -> {
-            Optional<Region> entryRegion = extractRegionFromString(range.getRegion());
-            if (entryRegion.isPresent() && (Region.ALL == region || entryRegion.get() == region)) {
-                builder.append(range.getRange()).append("\n");
+        resp.getIpRanges().stream().filter(range -> {
+            if (Region.ALL == region) {
+                return true;
+            } else {
+                Optional<Region> entryRegion = extractRegionFromString(range.getRegion());
+                return entryRegion.isPresent() && entryRegion.get() == region;
             }
-        });
+        }).forEach(range -> builder.append(range.getRange()).append("\n"));
 
         return builder.toString();
     }

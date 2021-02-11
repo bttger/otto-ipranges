@@ -16,6 +16,5 @@ Bewerbung Junior Fullstack Engineer - Coding Challenge AWS IP-Ranges
 - Dockerconfig
 - Controller Tests
 - Service Tests
-- IP ranges service
-- REST controller
+- Docs
 - 
