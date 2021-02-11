@@ -2,6 +2,7 @@ package de.otto.codingchallenge.ipranges.controller;
 
 import de.otto.codingchallenge.ipranges.service.AwsIpRangesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,13 @@ public class IpRangesController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleMissingParams(MissingServletRequestParameterException ex) {
         String param = ex.getParameterName();
-        return String.format("missing query string parameter: '%s'", param);
+        return String.format("missing query string parameter for: '%s'", param);
     }
 
+    @ExceptionHandler(ConversionFailedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleMissingParams(ConversionFailedException ex) {
+        String param = (String) ex.getValue();
+        return String.format("invalid query string parameter with value: '%s'", param);
+    }
 }
