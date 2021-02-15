@@ -1,0 +1,22 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: cc-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  rules:
+    - host: cc.scaffolder.th-luebeck.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aws-ipranges-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - cc.scaffolder.th-luebeck.dev
+      secretName: cc-ingress-cert

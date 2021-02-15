@@ -12,8 +12,6 @@ Bewerbung Junior Fullstack Engineer - Coding Challenge AWS IP-Ranges
 ```
 
 ### Todo
-- GitHub Actions
-- Service Tests
 - Docs
 - 
 

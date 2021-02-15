@@ -1,0 +1,41 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: aws-ipranges-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  selector:
+    app: aws-ipranges-pod
+
+---
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: aws-ipranges-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-ipranges-pod
+  template:
+    metadata:
+      labels:
+        app: aws-ipranges-pod
+    spec:
+      containers:
+        - name: aws-ipranges-container
+          image: bttger/aws-ipranges:latest
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 400m
+              memory: 500M
+            requests:
+              cpu: 200m
+              memory: 300M

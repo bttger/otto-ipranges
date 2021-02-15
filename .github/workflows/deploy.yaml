@@ -1,0 +1,35 @@
+name: Build container image, Publish and Deploy
+on: [push]
+
+jobs:
+  push_to_registry:
+    name: Build and Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Build and Push
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: bttger/aws-ipranges
+          tag_with_ref: true
+  deploy_to_cluster:
+    name: Deploy to K8s cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Deploy manifests
+        uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: apply -f /k8s_manifests
+      - name: Update image tag
+        uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: set image --record deployment/aws-ipranges-app aws-ipranges-container=bttger/aws-ipranges:${{ github.sha }}
