@@ -15,7 +15,7 @@ spec:
               service:
                 name: aws-ipranges-service
                 port:
-                  number: 80
+                  number: 8080
   tls:
     - hosts:
         - cc.scaffolder.th-luebeck.dev
