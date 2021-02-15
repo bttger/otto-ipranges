@@ -10,6 +10,11 @@ public class IpRangeV6Dto implements IpRangeDto {
     private String range;
     private String region;
 
+    public IpRangeV6Dto(String range, String region) {
+        this.range = range;
+        this.region = region;
+    }
+
     @Override
     public String getRange() {
         return range;

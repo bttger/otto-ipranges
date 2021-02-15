@@ -1,5 +1,6 @@
 package de.otto.codingchallenge.ipranges.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,6 +15,11 @@ public class IpRangesDto {
     private List<IpRangeV4Dto> ipRangesV4;
     @JsonProperty("ipv6_prefixes")
     private List<IpRangeV6Dto> ipRangesV6;
+
+    public IpRangesDto(List<IpRangeV4Dto> ipRangesV4, List<IpRangeV6Dto> ipRangesV6) {
+        this.ipRangesV4 = ipRangesV4;
+        this.ipRangesV6 = ipRangesV6;
+    }
 
     public List<IpRangeV4Dto> getIpRangesV4() {
         return ipRangesV4;
@@ -31,6 +37,7 @@ public class IpRangesDto {
         this.ipRangesV6 = ipRangesV6;
     }
 
+    @JsonIgnore
     public List<IpRangeDto> getIpRanges() {
         return Stream.concat(this.ipRangesV4.stream(), this.ipRangesV6.stream())
                 .collect(Collectors.toList());
