@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -48,8 +49,14 @@ public class AwsIpRangesService {
      * @return A String containing all IP-ranges of a particular {@link Region}. Each entry ends with a new line.
      */
     public String getIpRangesForRegion(Region region) {
-        IpRangesDto resp = this.restTemplate.getForObject(this.apiUrl, IpRangesDto.class);
-        if (resp == null) {
+        IpRangesDto resp;
+        try {
+            resp = this.restTemplate.getForObject(this.apiUrl, IpRangesDto.class);
+        } catch (HttpClientErrorException e) {
+            return "";
+        }
+
+        if (resp == null || resp.getIpRangesV4() == null) {
             return "";
         }
 
